@@ -1,0 +1,25 @@
+{
+  "name": "beltway-realms-card-db",
+  "version": "1.0.0",
+  "description": "FUTBin-style searchable card database for Beltway Realms",
+  "type": "module",
+  "scripts": {
+    "generate": "tsx scripts/generate-cards.ts",
+    "curate": "tsx scripts/curate-cards.ts",
+    "seed": "tsx scripts/seed-db.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "cd client && npm install && npm run build",
+    "start": "NODE_ENV=production tsx src/index.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "hono": "^4.0.0",
+    "@hono/node-server": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "tsx": "^4.0.0",
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^22.0.0"
+  }
+}

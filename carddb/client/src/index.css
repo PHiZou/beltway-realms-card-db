@@ -1,0 +1,79 @@
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a2e;
+  --bg-hover: #222240;
+  --border: #2a2a4a;
+  --border-hover: #3a3a6a;
+  --text-primary: #e8e8f0;
+  --text-secondary: #9898b0;
+  --text-muted: #68688a;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+
+  --color-common: #9e9e9e;
+  --color-uncommon: #4caf50;
+  --color-rare: #2196f3;
+  --color-epic: #9c27b0;
+  --color-legendary: #ff9800;
+
+  --color-quest: #ef4444;
+  --color-dialogue: #f59e0b;
+  --color-skill: #3b82f6;
+  --color-insight: #8b5cf6;
+  --color-event: #10b981;
+  --color-artifact: #ec4899;
+
+  --region-arlington: #1a5276;
+  --region-reston: #27ae60;
+  --region-tysons: #8e44ad;
+  --region-ashburn: #e67e22;
+  --region-citadel: #c0392b;
+  --region-neutral: #7f8c8d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-hover);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input, select {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}

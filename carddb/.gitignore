@@ -1,0 +1,7 @@
+node_modules/
+client/node_modules/
+public/
+db/beltway-cards.db-shm
+db/beltway-cards.db-wal
+.env
+*.log
