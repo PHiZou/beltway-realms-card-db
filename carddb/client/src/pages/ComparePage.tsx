@@ -51,11 +51,13 @@ export default function ComparePage() {
   };
 
   const statFields = [
-    { key: 'modifier', label: 'Modifier', max: 6 },
-    { key: 'versatility', label: 'Versatility', max: 5 },
-    { key: 'synergy', label: 'Synergy', max: 5 },
-    { key: 'reliability', label: 'Reliability', max: 5 },
-    { key: 'ceiling', label: 'Ceiling', max: 5 },
+    { key: 'modifier', label: 'Modifier', max: 8 },
+    { key: 'clout', label: 'Clout', max: 20 },
+    { key: 'hustle', label: 'Hustle', max: 20 },
+    { key: 'standing', label: 'Standing', max: 20 },
+    { key: 'cunning', label: 'Cunning', max: 20 },
+    { key: 'insight', label: 'Insight', max: 20 },
+    { key: 'influence', label: 'Influence', max: 20 },
   ];
 
   return (
@@ -191,10 +193,12 @@ export default function ComparePage() {
                   <div key={card.id} style={{ textAlign: 'center' }}>
                     <StatRadar
                       stats={[
-                        { label: 'VRS', value: card.versatility },
-                        { label: 'SYN', value: card.synergy },
-                        { label: 'REL', value: card.reliability },
-                        { label: 'CIL', value: card.ceiling },
+                        { label: 'CLT', value: Math.round((card.clout / 20) * 5) },
+                        { label: 'HST', value: Math.round((card.hustle / 20) * 5) },
+                        { label: 'STG', value: Math.round((card.standing / 20) * 5) },
+                        { label: 'CUN', value: Math.round((card.cunning / 20) * 5) },
+                        { label: 'INS', value: Math.round((card.insight / 20) * 5) },
+                        { label: 'INF', value: Math.round((card.influence / 20) * 5) },
                       ]}
                       color={compareColors[i]}
                       size={180}

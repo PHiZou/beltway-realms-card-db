@@ -71,7 +71,7 @@ cards.get('/', (c) => {
 
   const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  const validSorts = ['name', 'modifier', 'rarity', 'versatility', 'synergy', 'reliability', 'ceiling', 'type', 'region_id'];
+  const validSorts = ['name', 'modifier', 'rarity', 'clout', 'hustle', 'standing', 'cunning', 'insight', 'influence', 'primary_ability', 'action_type', 'recharge', 'type', 'region_id'];
   const sortField = validSorts.includes(filter.sort || '') ? filter.sort : 'name';
   const sortOrder = filter.order === 'desc' ? 'DESC' : 'ASC';
 

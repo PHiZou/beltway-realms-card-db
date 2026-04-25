@@ -84,10 +84,15 @@ export default function CardListPage() {
             <option value="modifier-asc">Modifier ↑</option>
             <option value="rarity-desc">Rarity ↓</option>
             <option value="rarity-asc">Rarity ↑</option>
-            <option value="versatility-desc">Versatility ↓</option>
-            <option value="synergy-desc">Synergy ↓</option>
-            <option value="reliability-desc">Reliability ↓</option>
-            <option value="ceiling-desc">Ceiling ↓</option>
+            <option value="clout-desc">Clout ↓</option>
+            <option value="hustle-desc">Hustle ↓</option>
+            <option value="standing-desc">Standing ↓</option>
+            <option value="cunning-desc">Cunning ↓</option>
+            <option value="insight-desc">Insight ↓</option>
+            <option value="influence-desc">Influence ↓</option>
+            <option value="primary_ability-asc">Primary ability</option>
+            <option value="action_type-asc">Action type</option>
+            <option value="recharge-asc">Recharge</option>
           </select>
         </div>
 

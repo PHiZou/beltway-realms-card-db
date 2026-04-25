@@ -17,10 +17,15 @@ interface CardData {
   rarity: string;
   region_id: string;
   modifier: number;
-  versatility: number;
-  synergy: number;
-  reliability: number;
-  ceiling: number;
+  clout: number;
+  hustle: number;
+  standing: number;
+  cunning: number;
+  insight: number;
+  influence: number;
+  primary_ability: string;
+  action_type: string;
+  recharge: string;
   flavor: string;
   description: string;
   unlock_method: string | null;
@@ -30,6 +35,18 @@ interface CardData {
 console.log('Initializing database...');
 const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
+
+// Drop and recreate cards-related tables so schema changes always take.
+db.pragma('foreign_keys = OFF');
+db.exec(`
+  DROP TABLE IF EXISTS card_tags;
+  DROP TABLE IF EXISTS card_variants;
+  DROP TABLE IF EXISTS card_ratings;
+  DROP TABLE IF EXISTS card_usage_stats;
+  DROP TABLE IF EXISTS cards_fts;
+  DROP TABLE IF EXISTS cards;
+`);
 db.pragma('foreign_keys = ON');
 
 // Run schema
@@ -45,8 +62,17 @@ console.log('Loading cards...');
 const cards: CardData[] = JSON.parse(readFileSync(cardsPath, 'utf-8'));
 
 const insertCard = db.prepare(`
-  INSERT OR REPLACE INTO cards (id, name, type, rarity, region_id, modifier, versatility, synergy, reliability, ceiling, flavor, description, unlock_method)
-  VALUES (@id, @name, @type, @rarity, @region_id, @modifier, @versatility, @synergy, @reliability, @ceiling, @flavor, @description, @unlock_method)
+  INSERT OR REPLACE INTO cards (
+    id, name, type, rarity, region_id, modifier,
+    clout, hustle, standing, cunning, insight, influence,
+    primary_ability, action_type, recharge,
+    flavor, description, unlock_method
+  ) VALUES (
+    @id, @name, @type, @rarity, @region_id, @modifier,
+    @clout, @hustle, @standing, @cunning, @insight, @influence,
+    @primary_ability, @action_type, @recharge,
+    @flavor, @description, @unlock_method
+  )
 `);
 
 const insertTag = db.prepare(`
@@ -72,10 +98,15 @@ const seedCards = db.transaction((cards: CardData[]) => {
       rarity: card.rarity,
       region_id: card.region_id,
       modifier: card.modifier,
-      versatility: card.versatility,
-      synergy: card.synergy,
-      reliability: card.reliability,
-      ceiling: card.ceiling,
+      clout: card.clout,
+      hustle: card.hustle,
+      standing: card.standing,
+      cunning: card.cunning,
+      insight: card.insight,
+      influence: card.influence,
+      primary_ability: card.primary_ability,
+      action_type: card.action_type,
+      recharge: card.recharge,
       flavor: card.flavor,
       description: card.description,
       unlock_method: card.unlock_method,

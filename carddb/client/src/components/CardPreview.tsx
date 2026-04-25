@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { Card } from '../hooks/useCards';
+import { ABILITY_LABELS, ACTION_LABELS, RECHARGE_LABELS, abilityModifier } from '../hooks/useCards';
 
 const rarityColors: Record<string, string> = {
   common: 'var(--color-common)',
@@ -96,29 +97,40 @@ export default function CardPreview({ card, onCompareToggle, isComparing }: Prop
         }}>"{card.flavor}"</p>
       )}
 
-      {/* Stats */}
+      {/* Action / Recharge / Primary badges */}
+      <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
+        <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 600, background: 'var(--bg-card)', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{ACTION_LABELS[card.action_type]}</span>
+        <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 600, background: 'var(--bg-card)', color: 'var(--text-muted)' }}>{RECHARGE_LABELS[card.recharge]}</span>
+        <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700, background: 'var(--color-legendary)22', color: 'var(--color-legendary)', textTransform: 'uppercase' }}>{card.primary_ability}</span>
+      </div>
+
+      {/* Ability scores */}
       <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px',
+        display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '4px',
         marginBottom: '12px',
       }}>
-        {[
-          { label: 'VRS', value: card.versatility },
-          { label: 'SYN', value: card.synergy },
-          { label: 'REL', value: card.reliability },
-          { label: 'CIL', value: card.ceiling },
-        ].map(stat => (
-          <div key={stat.label} style={{ textAlign: 'center' }}>
-            <div style={{
-              fontSize: '10px', color: 'var(--text-muted)', fontWeight: 500,
-              letterSpacing: '0.05em', marginBottom: '2px',
-            }}>{stat.label}</div>
-            <div style={{
-              fontSize: '16px', fontWeight: 700,
-              fontFamily: "'JetBrains Mono', monospace",
-              color: stat.value >= 4 ? 'var(--color-legendary)' : stat.value >= 3 ? 'var(--text-primary)' : 'var(--text-muted)',
-            }}>{stat.value}</div>
-          </div>
-        ))}
+        {(['clout','hustle','standing','cunning','insight','influence'] as const).map(a => {
+          const score = card[a];
+          const mod = abilityModifier(score);
+          const isPrimary = card.primary_ability === a;
+          return (
+            <div key={a} style={{ textAlign: 'center' }}>
+              <div style={{
+                fontSize: '10px', fontWeight: 500, letterSpacing: '0.05em',
+                marginBottom: '2px', color: isPrimary ? 'var(--color-legendary)' : 'var(--text-muted)',
+              }}>{ABILITY_LABELS[a]}</div>
+              <div style={{
+                fontSize: '15px', fontWeight: 700,
+                fontFamily: "'JetBrains Mono', monospace",
+                color: isPrimary ? 'var(--color-legendary)' : (score >= 16 ? 'var(--text-primary)' : 'var(--text-muted)'),
+              }}>{score}</div>
+              <div style={{
+                fontSize: '10px', fontFamily: "'JetBrains Mono', monospace",
+                color: 'var(--text-muted)',
+              }}>{mod >= 0 ? '+' : ''}{mod}</div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Tags */}

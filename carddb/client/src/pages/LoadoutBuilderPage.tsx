@@ -115,10 +115,12 @@ export default function LoadoutBuilderPage() {
   const totalWithSynergy = totalModifier + (synergy?.bonus || 0);
 
   const avgStats = hand.length > 0 ? {
-    versatility: +(hand.reduce((s, c) => s + c.versatility, 0) / hand.length).toFixed(1),
-    synergy: +(hand.reduce((s, c) => s + c.synergy, 0) / hand.length).toFixed(1),
-    reliability: +(hand.reduce((s, c) => s + c.reliability, 0) / hand.length).toFixed(1),
-    ceiling: +(hand.reduce((s, c) => s + c.ceiling, 0) / hand.length).toFixed(1),
+    clout: +(hand.reduce((s, c) => s + c.clout, 0) / hand.length).toFixed(1),
+    hustle: +(hand.reduce((s, c) => s + c.hustle, 0) / hand.length).toFixed(1),
+    standing: +(hand.reduce((s, c) => s + c.standing, 0) / hand.length).toFixed(1),
+    cunning: +(hand.reduce((s, c) => s + c.cunning, 0) / hand.length).toFixed(1),
+    insight: +(hand.reduce((s, c) => s + c.insight, 0) / hand.length).toFixed(1),
+    influence: +(hand.reduce((s, c) => s + c.influence, 0) / hand.length).toFixed(1),
   } : null;
 
   return (
@@ -219,10 +221,10 @@ export default function LoadoutBuilderPage() {
                     }}>+{card.modifier}</span>
                   </div>
                   <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                    {[card.versatility, card.synergy, card.reliability, card.ceiling].map((v, i) => (
+                    {[card.clout, card.hustle, card.standing, card.cunning, card.insight, card.influence].map((v, i) => (
                       <span key={i} style={{
                         fontSize: '10px', fontFamily: "'JetBrains Mono', monospace",
-                        color: v >= 4 ? 'var(--color-legendary)' : 'var(--text-muted)',
+                        color: v >= 16 ? 'var(--color-legendary)' : 'var(--text-muted)',
                       }}>{v}</span>
                     ))}
                   </div>
@@ -319,10 +321,12 @@ export default function LoadoutBuilderPage() {
               </h3>
               <StatRadar
                 stats={[
-                  { label: 'VRS', value: Math.round(avgStats.versatility) },
-                  { label: 'SYN', value: Math.round(avgStats.synergy) },
-                  { label: 'REL', value: Math.round(avgStats.reliability) },
-                  { label: 'CIL', value: Math.round(avgStats.ceiling) },
+                  { label: 'CLT', value: Math.round((avgStats.clout / 20) * 5) },
+                  { label: 'HST', value: Math.round((avgStats.hustle / 20) * 5) },
+                  { label: 'STG', value: Math.round((avgStats.standing / 20) * 5) },
+                  { label: 'CUN', value: Math.round((avgStats.cunning / 20) * 5) },
+                  { label: 'INS', value: Math.round((avgStats.insight / 20) * 5) },
+                  { label: 'INF', value: Math.round((avgStats.influence / 20) * 5) },
                 ]}
                 size={200}
               />

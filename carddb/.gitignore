@@ -5,3 +5,7 @@ db/beltway-cards.db-shm
 db/beltway-cards.db-wal
 .env
 *.log
+
+# Mid-edit safety copies of the card data
+data/*.bak
+data/*.pre-*

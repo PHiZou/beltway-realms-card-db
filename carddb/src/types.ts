@@ -1,6 +1,10 @@
 export type CardType = 'quest' | 'dialogue' | 'skill' | 'insight' | 'event' | 'artifact';
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
+export type Ability = 'clout' | 'hustle' | 'standing' | 'cunning' | 'insight' | 'influence';
+export type ActionType = 'action' | 'bonus' | 'reaction' | 'passive';
+export type Recharge = 'at-will' | 'short-rest' | 'long-rest' | 'one-shot';
+
 export interface Card {
   id: string;
   name: string;
@@ -8,10 +12,15 @@ export interface Card {
   rarity: Rarity;
   region_id: string | null;
   modifier: number;
-  versatility: number;
-  synergy: number;
-  reliability: number;
-  ceiling: number;
+  clout: number;
+  hustle: number;
+  standing: number;
+  cunning: number;
+  insight: number;
+  influence: number;
+  primary_ability: Ability;
+  action_type: ActionType;
+  recharge: Recharge;
   flavor: string | null;
   description: string;
   unlock_method: string | null;

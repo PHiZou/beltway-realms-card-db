@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useCard } from '../hooks/useCards';
+import { useCard, ACTION_LABELS, RECHARGE_LABELS } from '../hooks/useCards';
 import StatRadar from '../components/StatRadar';
 import CardPreview from '../components/CardPreview';
 import { useEffect, useState } from 'react';
@@ -64,6 +64,18 @@ export default function CardDetailPage() {
                   background: 'var(--bg-hover)', color: 'var(--text-secondary)',
                 }}>{card.region_id}</span>
               )}
+              <span style={{
+                padding: '4px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600,
+                background: 'var(--bg-hover)', color: 'var(--text-primary)', textTransform: 'uppercase',
+              }}>{ACTION_LABELS[card.action_type]}</span>
+              <span style={{
+                padding: '4px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 500,
+                background: 'var(--bg-hover)', color: 'var(--text-muted)',
+              }}>{RECHARGE_LABELS[card.recharge]}</span>
+              <span style={{
+                padding: '4px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700,
+                background: 'var(--color-legendary)22', color: 'var(--color-legendary)', textTransform: 'uppercase',
+              }}>Primary: {card.primary_ability}</span>
             </div>
 
             <h1 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>{card.name}</h1>
@@ -85,17 +97,23 @@ export default function CardDetailPage() {
               padding: '24px', background: 'var(--bg-card)', borderRadius: '12px', marginBottom: '24px',
             }}>
               {[
-                { label: 'Modifier', value: card.modifier, max: 6, color: rc },
-                { label: 'Versatility', value: card.versatility, max: 5, color: '#3b82f6' },
-                { label: 'Synergy', value: card.synergy, max: 5, color: '#8b5cf6' },
-                { label: 'Reliability', value: card.reliability, max: 5, color: '#10b981' },
-                { label: 'Ceiling', value: card.ceiling, max: 5, color: '#f59e0b' },
+                { label: 'Clout', value: card.clout, max: 20, color: '#ef4444' },
+                { label: 'Hustle', value: card.hustle, max: 20, color: '#f59e0b' },
+                { label: 'Standing', value: card.standing, max: 20, color: '#10b981' },
+                { label: 'Cunning', value: card.cunning, max: 20, color: '#3b82f6' },
+                { label: 'Insight', value: card.insight, max: 20, color: '#8b5cf6' },
+                { label: 'Influence', value: card.influence, max: 20, color: '#ec4899' },
               ].map(stat => (
                 <div key={stat.label}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)' }}>{stat.label}</span>
+                    <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                      {stat.label}
+                      {card.primary_ability === stat.label.toLowerCase() && (
+                        <span style={{ marginLeft: '6px', fontSize: '9px', padding: '1px 5px', borderRadius: '3px', background: 'var(--color-legendary)22', color: 'var(--color-legendary)', textTransform: 'uppercase', fontWeight: 700 }}>Primary</span>
+                      )}
+                    </span>
                     <span style={{ fontSize: '14px', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace", color: stat.color }}>
-                      {stat.label === 'Modifier' ? `+${stat.value}` : stat.value}
+                      {stat.value} <span style={{ opacity: 0.55, fontSize: '11px' }}>({Math.floor((stat.value - 10) / 2) >= 0 ? '+' : ''}{Math.floor((stat.value - 10) / 2)})</span>
                     </span>
                   </div>
                   <div style={{ height: '6px', background: 'var(--bg-hover)', borderRadius: '3px', overflow: 'hidden' }}>
@@ -154,10 +172,12 @@ export default function CardDetailPage() {
             </h3>
             <StatRadar
               stats={[
-                { label: 'VRS', value: card.versatility },
-                { label: 'SYN', value: card.synergy },
-                { label: 'REL', value: card.reliability },
-                { label: 'CIL', value: card.ceiling },
+                { label: 'CLT', value: Math.round((card.clout / 20) * 5) },
+                { label: 'HST', value: Math.round((card.hustle / 20) * 5) },
+                { label: 'STG', value: Math.round((card.standing / 20) * 5) },
+                { label: 'CUN', value: Math.round((card.cunning / 20) * 5) },
+                { label: 'INS', value: Math.round((card.insight / 20) * 5) },
+                { label: 'INF', value: Math.round((card.influence / 20) * 5) },
               ]}
               color={rc}
               size={220}

@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 
+export type Ability = 'clout' | 'hustle' | 'standing' | 'cunning' | 'insight' | 'influence';
+export type ActionType = 'action' | 'bonus' | 'reaction' | 'passive';
+export type Recharge = 'at-will' | 'short-rest' | 'long-rest' | 'one-shot';
+
 export interface Card {
   id: string;
   name: string;
@@ -7,14 +11,55 @@ export interface Card {
   rarity: string;
   region_id: string | null;
   modifier: number;
-  versatility: number;
-  synergy: number;
-  reliability: number;
-  ceiling: number;
+  clout: number;
+  hustle: number;
+  standing: number;
+  cunning: number;
+  insight: number;
+  influence: number;
+  primary_ability: Ability;
+  action_type: ActionType;
+  recharge: Recharge;
   flavor: string | null;
   description: string;
   unlock_method: string | null;
   tags: string[];
+}
+
+export const ABILITY_LABELS: Record<Ability, string> = {
+  clout: 'CLT',
+  hustle: 'HST',
+  standing: 'STG',
+  cunning: 'CUN',
+  insight: 'INS',
+  influence: 'INF',
+};
+
+export const ABILITY_FULL: Record<Ability, string> = {
+  clout: 'Clout',
+  hustle: 'Hustle',
+  standing: 'Standing',
+  cunning: 'Cunning',
+  insight: 'Insight',
+  influence: 'Influence',
+};
+
+export const ACTION_LABELS: Record<ActionType, string> = {
+  action: 'Action',
+  bonus: 'Bonus',
+  reaction: 'Reaction',
+  passive: 'Passive',
+};
+
+export const RECHARGE_LABELS: Record<Recharge, string> = {
+  'at-will': 'At-Will',
+  'short-rest': 'Short Rest',
+  'long-rest': 'Long Rest',
+  'one-shot': 'One-Shot',
+};
+
+export function abilityModifier(score: number): number {
+  return Math.floor((score - 10) / 2);
 }
 
 export interface PaginatedCards {

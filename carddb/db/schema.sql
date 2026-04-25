@@ -8,21 +8,27 @@ CREATE TABLE IF NOT EXISTS regions (
 );
 
 CREATE TABLE IF NOT EXISTS cards (
-  id            TEXT PRIMARY KEY,
-  name          TEXT NOT NULL,
-  type          TEXT NOT NULL CHECK (type IN ('quest','dialogue','skill','insight','event','artifact')),
-  rarity        TEXT NOT NULL CHECK (rarity IN ('common','uncommon','rare','epic','legendary')),
-  region_id     TEXT REFERENCES regions(id),
-  modifier      INTEGER DEFAULT 0,
-  versatility   INTEGER DEFAULT 3 CHECK (versatility BETWEEN 1 AND 5),
-  synergy       INTEGER DEFAULT 3 CHECK (synergy BETWEEN 1 AND 5),
-  reliability   INTEGER DEFAULT 3 CHECK (reliability BETWEEN 1 AND 5),
-  ceiling       INTEGER DEFAULT 3 CHECK (ceiling BETWEEN 1 AND 5),
-  flavor        TEXT,
-  description   TEXT NOT NULL,
-  unlock_method TEXT,
-  image_url     TEXT,
-  created_at    DATETIME DEFAULT CURRENT_TIMESTAMP
+  id              TEXT PRIMARY KEY,
+  name            TEXT NOT NULL,
+  type            TEXT NOT NULL CHECK (type IN ('quest','dialogue','skill','insight','event','artifact')),
+  rarity          TEXT NOT NULL CHECK (rarity IN ('common','uncommon','rare','epic','legendary')),
+  region_id       TEXT REFERENCES regions(id),
+  modifier        INTEGER DEFAULT 0,
+  -- Six BG3-style ability scores (1-20). Primary ability is the card's "casting stat".
+  clout           INTEGER DEFAULT 10 CHECK (clout BETWEEN 1 AND 20),
+  hustle          INTEGER DEFAULT 10 CHECK (hustle BETWEEN 1 AND 20),
+  standing        INTEGER DEFAULT 10 CHECK (standing BETWEEN 1 AND 20),
+  cunning         INTEGER DEFAULT 10 CHECK (cunning BETWEEN 1 AND 20),
+  insight         INTEGER DEFAULT 10 CHECK (insight BETWEEN 1 AND 20),
+  influence       INTEGER DEFAULT 10 CHECK (influence BETWEEN 1 AND 20),
+  primary_ability TEXT CHECK (primary_ability IN ('clout','hustle','standing','cunning','insight','influence')),
+  action_type     TEXT CHECK (action_type IN ('action','bonus','reaction','passive')),
+  recharge        TEXT CHECK (recharge IN ('at-will','short-rest','long-rest','one-shot')),
+  flavor          TEXT,
+  description     TEXT NOT NULL,
+  unlock_method   TEXT,
+  image_url       TEXT,
+  created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS card_tags (

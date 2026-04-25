@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { Card } from '../hooks/useCards';
+import { ABILITY_LABELS, ACTION_LABELS, RECHARGE_LABELS, abilityModifier } from '../hooks/useCards';
 
 const rarityColors: Record<string, string> = {
   common: 'var(--color-common)',
@@ -54,11 +55,15 @@ export default function CardTable({ cards, sortField, sortOrder, onSort, compare
             <th style={thStyle} onClick={() => onSort('type')}>Type <SortIcon field="type" currentSort={sortField} currentOrder={sortOrder} /></th>
             <th style={thStyle} onClick={() => onSort('rarity')}>Rarity <SortIcon field="rarity" currentSort={sortField} currentOrder={sortOrder} /></th>
             <th style={thStyle} onClick={() => onSort('region_id')}>Region <SortIcon field="region_id" currentSort={sortField} currentOrder={sortOrder} /></th>
-            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('modifier')}>MOD <SortIcon field="modifier" currentSort={sortField} currentOrder={sortOrder} /></th>
-            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('versatility')}>VRS <SortIcon field="versatility" currentSort={sortField} currentOrder={sortOrder} /></th>
-            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('synergy')}>SYN <SortIcon field="synergy" currentSort={sortField} currentOrder={sortOrder} /></th>
-            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('reliability')}>REL <SortIcon field="reliability" currentSort={sortField} currentOrder={sortOrder} /></th>
-            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('ceiling')}>CIL <SortIcon field="ceiling" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('action_type')}>Action <SortIcon field="action_type" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('recharge')}>Recharge <SortIcon field="recharge" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('primary_ability')}>Primary <SortIcon field="primary_ability" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('clout')}>{ABILITY_LABELS.clout} <SortIcon field="clout" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('hustle')}>{ABILITY_LABELS.hustle} <SortIcon field="hustle" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('standing')}>{ABILITY_LABELS.standing} <SortIcon field="standing" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('cunning')}>{ABILITY_LABELS.cunning} <SortIcon field="cunning" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('insight')}>{ABILITY_LABELS.insight} <SortIcon field="insight" currentSort={sortField} currentOrder={sortOrder} /></th>
+            <th style={{ ...thStyle, textAlign: 'center' }} onClick={() => onSort('influence')}>{ABILITY_LABELS.influence} <SortIcon field="influence" currentSort={sortField} currentOrder={sortOrder} /></th>
           </tr>
         </thead>
         <tbody>
@@ -92,11 +97,21 @@ export default function CardTable({ cards, sortField, sortOrder, onSort, compare
                 }}>{card.rarity}</span>
               </td>
               <td style={{ ...tdStyle, color: 'var(--text-secondary)' }}>{card.region_id || '—'}</td>
-              <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>+{card.modifier}</td>
-              <td style={{ ...tdStyle, textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", color: card.versatility >= 4 ? 'var(--color-legendary)' : 'var(--text-secondary)' }}>{card.versatility}</td>
-              <td style={{ ...tdStyle, textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", color: card.synergy >= 4 ? 'var(--color-legendary)' : 'var(--text-secondary)' }}>{card.synergy}</td>
-              <td style={{ ...tdStyle, textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", color: card.reliability >= 4 ? 'var(--color-legendary)' : 'var(--text-secondary)' }}>{card.reliability}</td>
-              <td style={{ ...tdStyle, textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", color: card.ceiling >= 4 ? 'var(--color-legendary)' : 'var(--text-secondary)' }}>{card.ceiling}</td>
+              <td style={{ ...tdStyle, textAlign: 'center' }}>
+                <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, background: 'var(--bg-card)', color: 'var(--text-secondary)' }}>{ACTION_LABELS[card.action_type]}</span>
+              </td>
+              <td style={{ ...tdStyle, textAlign: 'center', fontSize: '11px', color: 'var(--text-muted)' }}>{RECHARGE_LABELS[card.recharge]}</td>
+              <td style={{ ...tdStyle, textAlign: 'center', fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-secondary)', fontWeight: 600 }}>{card.primary_ability}</td>
+              {(['clout','hustle','standing','cunning','insight','influence'] as const).map((a) => {
+                const score = card[a];
+                const mod = abilityModifier(score);
+                const isPrimary = card.primary_ability === a;
+                return (
+                  <td key={a} style={{ ...tdStyle, textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", color: isPrimary ? 'var(--color-legendary)' : (score >= 16 ? 'var(--text-primary)' : 'var(--text-secondary)'), fontWeight: isPrimary ? 700 : 400 }}>
+                    {score} <span style={{ opacity: 0.55, fontSize: '11px' }}>({mod >= 0 ? '+' : ''}{mod})</span>
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
